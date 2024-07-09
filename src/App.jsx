@@ -2,18 +2,22 @@ import "./App.css";
 import { Paper } from "@mui/material";
 import { Container } from "@mui/material";
 import FlagsGame from "./components/FlagsGame";
+import Register from "./components/Register";
+import LogIn from "./components/LogIn";
 
 function App() {
   return (
     <Container>
-      <Paper
+      {/* <Paper
         style={{
           minHeight: "600px",
         }}
         elevation={4}
-      >
-        <FlagsGame />
-      </Paper>
+      > */}
+      <LogIn />
+      {/* <Register /> */}
+      {/* <FlagsGame/> */}
+      {/* </Paper> */}
     </Container>
   );
 }
