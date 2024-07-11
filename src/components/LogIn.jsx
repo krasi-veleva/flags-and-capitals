@@ -8,12 +8,13 @@ import Link from "@mui/material/Link";
 
 export default function LogIn() {
   return (
-    <Container component="main" maxWidth="md">
+    <Container component="main" maxWidth="lg">
       <Paper
         elevation={3}
         sx={{
-          padding: 20,
-          marginTop: 15,
+          padding: 25,
+          marginTop: 0,
+          marginBottom: 20,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
