@@ -19,36 +19,33 @@ export default function Home() {
         minWidth: "450px",
       }}
     >
-      <Box sx={{ "& button": { m: 3, width: "300px" } }}>
+      <Box sx={{ "& .MuiButton-root": { m: 3, width: "300px" } }}>
         <div>
-          <Button variant="contained" size="large" disabled>
+          <Button
+            href="/flags-and-capitals"
+            variant="contained"
+            size="large"
+            disabled={!userLoggedIn}
+          >
             Play
           </Button>
           <br></br>
-          <Button
-            variant="contained"
-            size="large"
-            sx={{
-              backgroundColor: "#1976d2",
-              color: "#ffffff",
-              "&:hover": { backgroundColor: "#115293" },
-            }}
-          >
+          <Button href="/statistic" variant="contained" size="large">
             Statistics
           </Button>
           <br></br>
           {userLoggedIn ? (
-            <Button variant="contained" size="large">
+            <Button href="/logout" variant="contained" size="large">
               Log out
             </Button>
           ) : (
-            <Button variant="contained" size="large">
+            <Button href="/login" variant="contained" size="large">
               Log in
             </Button>
           )}
           <br></br>
           {userLoggedIn ? null : (
-            <Button variant="contained" size="large">
+            <Button href="/register" variant="contained" size="large">
               Register
             </Button>
           )}

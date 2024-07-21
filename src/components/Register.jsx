@@ -46,10 +46,7 @@ export default function Register() {
             label="Username"
             name="username"
             variant="outlined"
-            sx={{
-              backgroundColor: "#ffffff",
-              borderRadius: "4px",
-            }}
+            sx={{ backgroundColor: "#ffffff", borderRadius: "4px" }}
           />
 
           <TextField
@@ -116,50 +113,3 @@ export default function Register() {
     </Container>
   );
 }
-//   return (
-//     <>
-//       <Typography variant="h4" component="h1" gutterBottom>
-//         Sign Up
-//       </Typography>
-
-//       <Box
-//         component="form"
-//         sx={{
-//           "& .MuiTextField-root": { m: 2, width: "55ch" },
-//         }}
-//         noValidate
-//         autoComplete="on"
-//       >
-//         <div>
-//           <TextField
-//             required
-//             id="username"
-//             label="Username"
-//             helperText="Please enter your username"
-//           />
-//           <TextField
-//             required
-//             id="email"
-//             label="Email"
-//             helperText="Please enter your email "
-//           />
-//           <TextField
-//             id="password"
-//             label="Password"
-//             type="password"
-//             //   autoComplete="current-password"
-//           />
-//           <TextField id="repass" label="Repeat Password" />
-//           <Button
-//             type="submit"
-//             fullWidth
-//             variant="contained"
-//             color="primary"
-//             sx={{ marginTop: 3, marginBottom: 2 }}
-//           >
-//             Register
-//           </Button>
-//         </div>
-//       </Box>
-//     </>
-//   );

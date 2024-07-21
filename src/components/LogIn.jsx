@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 
-export default function LogIn() {
+export default function Login() {
   return (
     <Container component="main" maxWidth="lg">
       <Paper
