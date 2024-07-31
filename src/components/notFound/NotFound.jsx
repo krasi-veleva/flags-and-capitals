@@ -3,19 +3,7 @@ import Typography from "@mui/material/Typography";
 
 export default function NotFound() {
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        padding: 25,
-        marginTop: 0,
-        marginBottom: 20,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "#f7f7f7",
-        minWidth: "450px",
-      }}
-    >
+    <>
       <Typography
         variant="h4"
         component="h1"
@@ -32,6 +20,6 @@ export default function NotFound() {
       >
         Page Not Found
       </Typography>
-    </Paper>
+    </>
   );
 }

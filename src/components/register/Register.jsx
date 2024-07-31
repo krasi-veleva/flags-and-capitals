@@ -12,19 +12,7 @@ const TextFieldStyle = {};
 
 export default function Register() {
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        padding: 25,
-        marginTop: 0,
-        marginBottom: 20,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "#f7f7f7",
-        minWidth: "450px",
-      }}
-    >
+    <>
       <Typography variant="h4" component="h1" gutterBottom>
         Register Page
       </Typography>
@@ -111,6 +99,6 @@ export default function Register() {
           </Link>
         </Typography>
       </Box>
-    </Paper>
+    </>
   );
 }

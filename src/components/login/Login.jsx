@@ -9,19 +9,7 @@ import Link from "@mui/material/Link";
 
 export default function Login() {
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        padding: 25,
-        marginTop: 0,
-        marginBottom: 20,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "#f7f7f7",
-        minWidth: "450px",
-      }}
-    >
+    <>
       <Typography variant="h4" component="h1" gutterBottom>
         Log in Page
       </Typography>
@@ -89,6 +77,6 @@ export default function Login() {
           </Link>
         </Typography>
       </Box>
-    </Paper>
+    </>
   );
 }

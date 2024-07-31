@@ -4,22 +4,10 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 
 export default function Home() {
-  const userLoggedIn = false;
+  const userLoggedIn = true;
 
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        padding: 15,
-        marginTop: 0,
-        marginBottom: 20,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "#f7f7f7",
-        minWidth: "450px",
-      }}
-    >
+    <>
       <Box sx={{ "& .MuiButton-root": { m: 3, width: "300px" } }}>
         <div>
           <Button
@@ -74,6 +62,6 @@ export default function Home() {
           <br></br>
         </div>
       </Box>
-    </Paper>
+    </>
   );
 }
