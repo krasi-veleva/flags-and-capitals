@@ -7,6 +7,7 @@ import Register from "./components/register/Register";
 import Login from "./components/login/Login";
 import FlagsGame from "./components/flagsGame/FlagsGame";
 import NotFound from "./components/notFound/NotFound";
+import Statistic from "./components/statistic/Statistic";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/statistic" element={<Statistic />} />
         <Route path="/flags-and-capitals" element={<FlagsGame />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
