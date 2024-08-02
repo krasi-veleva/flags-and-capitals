@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import { Box, Paper, CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { useState, useEffect } from "react";
 
@@ -11,6 +11,11 @@ const buttonStyle = {
     backgroundColor: "#f0f0f0",
     borderColor: "#000",
   },
+};
+const correctButtonStyle = {
+  backgroundColor: "green",
+  color: "#fff",
+  borderColor: "green",
 };
 
 export default function FlagsGame() {
@@ -43,6 +48,17 @@ export default function FlagsGame() {
   });
 
   const [score, setScore] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+
+  const handleButtonClick = (button) => {
+    setSelectedAnswer(button);
+    if (button.correct) {
+      console.log("Answer is correct");
+      setScore((prevScore) => prevScore + 1);
+    } else {
+      console.log("Answer is wrong");
+    }
+  };
 
   return (
     <>
@@ -58,7 +74,7 @@ export default function FlagsGame() {
         <img
           src={question.flagUrl}
           alt="Flag"
-          style={{ maxWidth: "50%", height: "auto" }}
+          style={{ maxWidth: "50%", height: "auto", border: "3px solid black" }}
         />
       </Box>
       <Box
@@ -77,9 +93,15 @@ export default function FlagsGame() {
           >
             <Button
               key={button.value}
-              // onClick={}
+              onClick={() => handleButtonClick(button)}
               variant="outlined"
-              sx={buttonStyle}
+              sx={
+                selectedAnswer && selectedAnswer.value === button.value
+                  ? button.correct
+                    ? correctButtonStyle
+                    : { ...buttonStyle, backgroundColor: "red", color: "#fff" }
+                  : buttonStyle
+              }
               fullWidth
             >
               {button.value}
