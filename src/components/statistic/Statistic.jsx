@@ -39,7 +39,7 @@ const rows = [
   createData("Elsa", 200, idCounter++),
   createData("Eric", 250, idCounter++),
   createData("Tiana", 350, idCounter++),
-];
+].sort((a, b) => b.score - a.score);
 
 export default function Statistic() {
   const [page, setPage] = useState(0);
@@ -83,7 +83,7 @@ export default function Statistic() {
                   <TableCell align="right">
                     <Button
                       component={Link}
-                      to={`/details/${row.id}`}
+                      to={`/profile-details/${row.id}`}
                       variant="contained"
                       color="primary"
                       size="small"
