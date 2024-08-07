@@ -8,6 +8,7 @@ import Login from "./components/login/Login";
 import FlagsGame from "./components/flagsGame/FlagsGame";
 import NotFound from "./components/notFound/NotFound";
 import Statistic from "./components/statistic/Statistic";
+import ProfileDetails from "./components/profileDetails/ProfileDetails";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/statistic" element={<Statistic />} />
+        <Route path="/profile-details/:id" element={<ProfileDetails />} />
         <Route path="/flags-and-capitals" element={<FlagsGame />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
