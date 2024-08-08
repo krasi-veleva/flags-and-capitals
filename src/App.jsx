@@ -9,6 +9,7 @@ import FlagsGame from "./components/flagsGame/FlagsGame";
 import NotFound from "./components/notFound/NotFound";
 import Statistic from "./components/statistic/Statistic";
 import ProfileDetails from "./components/profileDetails/ProfileDetails";
+import ProfileEdit from "./components/profileEdit/ProfileEdit";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/statistic" element={<Statistic />} />
         <Route path="/profile-details/:id" element={<ProfileDetails />} />
+        <Route path="/profile-edit/:id" element={<ProfileEdit />} />
         <Route path="/flags-and-capitals" element={<FlagsGame />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
