@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
+
+import { signOut } from "firebase/auth";
+
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
-export default function Home() {
-  const userLoggedIn = true;
+export default function Home({ auth, user }) {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
 
   return (
     <>
@@ -14,7 +23,7 @@ export default function Home() {
             to="/flags-and-capitals"
             variant="contained"
             size="large"
-            disabled={!userLoggedIn}
+            disabled={!user}
           >
             Play
           </Button>
@@ -25,16 +34,11 @@ export default function Home() {
             variant="contained"
             size="large"
           >
-            Statistics
+            Statistic
           </Button>
           <br></br>
-          {userLoggedIn ? (
-            <Button
-              component={Link}
-              to="/logout"
-              variant="contained"
-              size="large"
-            >
+          {user ? (
+            <Button variant="contained" size="large" onClick={handleLogout}>
               Log out
             </Button>
           ) : (
@@ -48,7 +52,7 @@ export default function Home() {
             </Button>
           )}
           <br></br>
-          {userLoggedIn ? null : (
+          {!user && (
             <Button
               component={Link}
               to="/register"

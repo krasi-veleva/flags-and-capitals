@@ -1,4 +1,8 @@
-import { Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
+
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -6,9 +10,32 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 
-const TextFieldStyle = {};
+const TextFieldStyle = { backgroundColor: "#ffffff", borderRadius: "4px" };
 
-export default function Register() {
+export default function Register({ auth }) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repass, setRepass] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== repass) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      navigate("/");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <>
       <Typography variant="h4" component="h1" gutterBottom>
@@ -25,6 +52,7 @@ export default function Register() {
           width: "100%",
         }}
         autoComplete="on"
+        onSubmit={handleSubmit}
       >
         <TextField
           required
@@ -32,7 +60,9 @@ export default function Register() {
           label="Username"
           name="username"
           variant="outlined"
-          sx={{ backgroundColor: "#ffffff", borderRadius: "4px" }}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          sx={TextFieldStyle}
         />
 
         <TextField
@@ -42,7 +72,9 @@ export default function Register() {
           type="email"
           name="email"
           variant="outlined"
-          sx={{ backgroundColor: "#ffffff", borderRadius: "4px" }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          sx={TextFieldStyle}
         />
 
         <TextField
@@ -52,7 +84,9 @@ export default function Register() {
           type="password"
           name="password"
           variant="outlined"
-          sx={{ backgroundColor: "#ffffff", borderRadius: "4px" }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          sx={TextFieldStyle}
         />
 
         <TextField
@@ -62,8 +96,16 @@ export default function Register() {
           type="password"
           name="repass"
           variant="outlined"
-          sx={{ backgroundColor: "#ffffff", borderRadius: "4px" }}
+          value={repass}
+          onChange={(e) => setRepass(e.target.value)}
+          sx={TextFieldStyle}
         />
+
+        {error && (
+          <Typography color="error" variant="body2">
+            {error}
+          </Typography>
+        )}
 
         <Button
           type="submit"

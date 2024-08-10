@@ -1,4 +1,9 @@
-import { Routes, Route } from "react-router-dom";
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+import { useState, useEffect } from "react";
+
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Paper from "@mui/material/Paper";
 
@@ -11,7 +16,35 @@ import Statistic from "./components/statistic/Statistic";
 import ProfileDetails from "./components/profileDetails/ProfileDetails";
 import ProfileEdit from "./components/profileEdit/ProfileEdit";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyAtvIVOaPBK4XezVsO8ijmawfG-Yky2cbY",
+  authDomain: "flags-and-capitals-7a9e9.firebaseapp.com",
+  projectId: "flags-and-capitals-7a9e9",
+  storageBucket: "flags-and-capitals-7a9e9.appspot.com",
+  messagingSenderId: "947792359882",
+  appId: "1:947792359882:web:01899ecc70b1bb6a09df33",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 function App() {
+  const [user, setUser] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Paper
       elevation={3}
@@ -27,13 +60,31 @@ function App() {
       }}
     >
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home auth={auth} user={user} />} />
+
+        <Route
+          path="/register"
+          element={
+            user ? <Navigate to="/" replace /> : <Register auth={auth} />
+          }
+        />
+
+        <Route
+          path="/login"
+          element={user ? <Navigate to="/" replace /> : <Login auth={auth} />}
+        />
+
+        <Route
+          path="/flags-and-capitals"
+          element={user ? <FlagsGame /> : <Navigate to="/login" replace />}
+        />
+
         <Route path="/statistic" element={<Statistic />} />
+
         <Route path="/profile-details/:id" element={<ProfileDetails />} />
+
         <Route path="/profile-edit/:id" element={<ProfileEdit />} />
-        <Route path="/flags-and-capitals" element={<FlagsGame />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Paper>
