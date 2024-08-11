@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
 
@@ -27,9 +28,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 function App() {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -62,28 +64,17 @@ function App() {
       <Routes>
         <Route path="/" element={<Home auth={auth} user={user} />} />
 
-        <Route
-          path="/register"
-          element={
-            user ? <Navigate to="/" replace /> : <Register auth={auth} />
-          }
-        />
+        <Route path="/register" element={user ? <Navigate to="/" replace /> : <Register auth={auth} db={db} />} />
 
-        <Route
-          path="/login"
-          element={user ? <Navigate to="/" replace /> : <Login auth={auth} />}
-        />
+        <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login auth={auth} />} />
 
-        <Route
-          path="/flags-and-capitals"
-          element={user ? <FlagsGame /> : <Navigate to="/login" replace />}
-        />
+        <Route path="/flags-and-capitals" element={user ? <FlagsGame /> : <Navigate to="/login" replace />} />
 
-        <Route path="/statistic" element={<Statistic />} />
+        <Route path="/statistic" element={<Statistic db={db} />} />
 
-        <Route path="/profile-details/:id" element={<ProfileDetails />} />
+        <Route path="/profile-details/:uid" element={<ProfileDetails db={db} />} />
 
-        <Route path="/profile-edit/:id" element={<ProfileEdit />} />
+        <Route path="/profile-edit/:uid" element={<ProfileEdit db={db} />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

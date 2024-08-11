@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -12,7 +13,7 @@ import Link from "@mui/material/Link";
 
 const TextFieldStyle = { backgroundColor: "#ffffff", borderRadius: "4px" };
 
-export default function Register({ auth }) {
+export default function Register({ auth, db }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +30,23 @@ export default function Register({ auth }) {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const useCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = useCredential.user;
+
+      console.log(email);
+
+      console.log("User registered successfully", user ? user.uid : null);
+
+      await setDoc(doc(db, "users", user.uid), {
+        username,
+        score: 0,
+        description: "Add a description",
+        profileImageUrl:
+          "https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg",
+      });
+
+      console.log("User registered successfully");
+
       navigate("/");
     } catch (error) {
       setError(error.message);
@@ -92,7 +109,7 @@ export default function Register({ auth }) {
         <TextField
           required
           id="repass"
-          label="Repeat Password"
+          label="Confirm Password"
           type="password"
           name="repass"
           variant="outlined"
@@ -120,7 +137,7 @@ export default function Register({ auth }) {
             backgroundColor: "#1565c0",
           }}
         >
-          Submit
+          Register
         </Button>
       </Box>
       <Box
