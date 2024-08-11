@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 export default function LikeButton() {
@@ -18,14 +17,7 @@ export default function LikeButton() {
   return (
     <Box display="flex" justifyContent="center" mb={2}>
       <Box width="50%" textAlign="center">
-        <Typography variant="body1" p={3}>
-          Like this profile by pressing the button
-        </Typography>
-        <Button
-          onClick={handleLike}
-          variant="contained"
-          color={like ? "error" : "primary"}
-        >
+        <Button onClick={handleLike} variant="contained" color={like ? "error" : "primary"}>
           {like ? "Unlike" : "Like"}
         </Button>
       </Box>
