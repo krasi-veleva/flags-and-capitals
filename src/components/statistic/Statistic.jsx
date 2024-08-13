@@ -15,7 +15,7 @@ import { getAllUsers } from "../../utils/userUtils";
 
 // .sort((a, b) => b.score - a.score);
 
-export default function Statistic({ db }) {
+export default function Statistic({ db, currentUser }) {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -53,7 +53,12 @@ export default function Statistic({ db }) {
           </TableHead>
           <TableBody>
             {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user) => (
-              <TableRow key={user.uid} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              <TableRow
+                key={user.uid}
+                sx={{
+                  backgroundColor: user.uid === currentUser?.uid ? "lightyellow" : "inherit",
+                }}
+              >
                 <TableCell component="th" scope="row">
                   {user.username}
                 </TableCell>
