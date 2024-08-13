@@ -1,0 +1,26 @@
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #050000;
+  text-align: center;
+}
+
+.imageContainer {
+  width: 100%;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.image {
+  max-width: 50%;
+  height: auto;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  text-align: center;
+}
