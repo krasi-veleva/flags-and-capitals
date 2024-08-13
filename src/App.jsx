@@ -112,7 +112,7 @@ function App() {
 
         <Route path="/profile-details/:uid" element={<ProfileDetails db={db} auth={auth} currentUser={user} />} />
 
-        <Route path="/profile-edit/:uid" element={<ProfileEdit db={db} />} />
+        <Route path="/profile-edit/:uid" element={<ProfileEdit db={db} currentUser={user} />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

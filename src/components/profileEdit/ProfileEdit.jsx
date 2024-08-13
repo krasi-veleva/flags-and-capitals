@@ -1,28 +1,55 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { useParams, useNavigate } from "react-router-dom";
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-export default function ProfileEdit() {
+export default function ProfileEdit({ db, currentUser }) {
   const { uid } = useParams();
   const navigate = useNavigate();
-  const profileData = {
-    imageUrl: "https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg",
+  const [profileData, setProfileData] = useState({
+    profileImageUrl: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    if (currentUser && currentUser.uid !== uid) {
+      console.log("Unauthorized access attempt");
+      navigate("/"); // Redirect to home page or show an error message
+      return;
+    }
+
+    const fetchUserData = async () => {
+      const userDoc = await getDoc(doc(db, "users", uid));
+      if (userDoc.exists()) {
+        setProfileData(userDoc.data());
+      }
+    };
+    fetchUserData();
+  }, [db, uid]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfileData({ ...profileData, [name]: value });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userRef = doc(db, "users", uid);
+
+    try {
+      await updateDoc(userRef, {
+        profileImageUrl: profileData.profileImageUrl,
+        description: profileData.description,
+      });
+      navigate(`/profile-details/${uid}`);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
   return (
     <>
       <Typography p={4} variant="h4" component="h1" gutterBottom>
@@ -30,8 +57,9 @@ export default function ProfileEdit() {
       </Typography>
       <Box
         component="form"
+        onSubmit={handleSubmit}
         sx={{
-          "& .MuiTextField-root": { margin: 6, width: "100%" },
+          "& .MuiTextField-root": { margin: 2, width: "100%" },
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -40,30 +68,39 @@ export default function ProfileEdit() {
       >
         <Box
           component="img"
-          src={profileData.imageUrl}
+          src={profileData.profileImageUrl}
           alt="Profile"
           sx={{ width: 100, height: 100, borderRadius: "50%", marginBottom: 2 }}
         />
-        <Typography p={2} variant="body2" color="text.primary">
-          Edit profile image
-        </Typography>
-        <Button component="label" role={undefined} variant="contained" tabIndex={-1} startIcon={<CloudUploadIcon />}>
-          Upload file
-          <VisuallyHiddenInput type="file" />
+        <TextField
+          required
+          id="profileImageUrl"
+          name="profileImageUrl"
+          label="Profile Image URL"
+          variant="outlined"
+          value={profileData.profileImageUrl}
+          onChange={handleInputChange}
+        />
+        <TextField
+          id="description"
+          name="description"
+          label="Description"
+          multiline
+          rows={4}
+          value={profileData.description}
+          onChange={handleInputChange}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{
+            marginTop: "30px",
+          }}
+        >
+          Save
         </Button>
-        <TextField id="outlined-multiline-static" label="Description" multiline rows={4} />
       </Box>
-      <Button
-        type="submit"
-        display="flex"
-        variant="contained"
-        color="primary"
-        sx={{
-          marginTop: "30px",
-        }}
-      >
-        Save
-      </Button>
       <Button variant="contained" sx={{ marginTop: "20px" }} onClick={() => navigate(`/profile-details/${uid}`)}>
         Back
       </Button>
