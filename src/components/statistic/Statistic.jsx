@@ -62,7 +62,7 @@ export default function Statistic({ db, currentUser }) {
                 <TableCell component="th" scope="row">
                   {user.username}
                 </TableCell>
-                <TableCell align="center">{user.score}</TableCell>
+                <TableCell align="center">{user.bestScore}</TableCell>
                 <TableCell align="right">
                   <Button
                     component={Link}

@@ -39,7 +39,7 @@ export default function Register({ auth, db }) {
 
       await setDoc(doc(db, "users", user.uid), {
         username,
-        score: 0,
+        bestScore: 0,
         description: "Add a description",
         profileImageUrl:
           "https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg",

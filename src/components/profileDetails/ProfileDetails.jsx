@@ -54,8 +54,8 @@ export default function ProfileDetails({ auth, db, currentUser }) {
           </Typography>
           <Box display="flex" justifyContent="space-around" mb={2}>
             <Box p={2} width="45%" textAlign="center">
-              <Typography variant="h6">Score</Typography>
-              <Typography variant="body1">{user.score}</Typography>
+              <Typography variant="h6">Best Score</Typography>
+              <Typography variant="body1">{user.bestScore}</Typography>
             </Box>
           </Box>
           {currentUser && <LikeButton currentUserId={currentUser.uid} profileId={uid} db={db} />}
