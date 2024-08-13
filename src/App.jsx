@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
 
@@ -29,6 +30,40 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+// const questions = [
+//   {
+//     flagUrl: "https://flagpedia.net/data/flags/w1160/bg.webp",
+//     correctAnswer: "Bulgaria",
+//     options: ["Bulgaria", "Romania", "Hungary", "Serbia"],
+//   },
+//   {
+//     flagUrl: "https://flagpedia.net/data/flags/w1160/gb-eng.webp",
+//     correctAnswer: "England",
+//     options: ["England", "Denmark", "Norway", "Sweden"],
+//   },
+//   {
+//     flagUrl: "https://flagpedia.net/data/flags/w1160/hr.webp",
+//     correctAnswer: "Croatia",
+//     options: ["Croatia", "Slovakia", "Slovenia", "Czech Republic"],
+//   },
+//   // Add more questions here
+// ];
+
+// async function addQuestions() {
+//   const questionsCollection = collection(db, "flagQuestions");
+
+//   for (const question of questions) {
+//     try {
+//       await addDoc(questionsCollection, question);
+//       console.log("Question added successfully");
+//     } catch (error) {
+//       console.error("Error adding question: ", error);
+//     }
+//   }
+// }
+
+// addQuestions();
 
 function App() {
   const [user, setUser] = useState(null);
@@ -68,7 +103,10 @@ function App() {
 
         <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login auth={auth} />} />
 
-        <Route path="/flags-and-capitals" element={user ? <FlagsGame /> : <Navigate to="/login" replace />} />
+        <Route
+          path="/flags-and-capitals"
+          element={user ? <FlagsGame db={db} currentUser={user} /> : <Navigate to="/login" replace />}
+        />
 
         <Route path="/statistic" element={<Statistic db={db} currentUser={user} />} />
 
