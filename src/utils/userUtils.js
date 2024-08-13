@@ -27,7 +27,8 @@ export const deleteProfile = async (auth, authId, db) => {
   const user = auth.currentUser;
 
   try {
-    await deleteDoc(doc(db, "users", authId));
+    const docRef = doc(db, "users", authId);
+    await deleteDoc(docRef);
 
     console.log("user", user, user.uid, authId);
 
