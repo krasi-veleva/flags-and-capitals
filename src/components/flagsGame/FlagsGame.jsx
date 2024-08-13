@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef } from "react";
-
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { collection, getDocs, doc, getDoc, updateDoc } from "firebase/firestore";
-
 import Button from "@mui/material/Button";
 import { Box, CircularProgress } from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -32,6 +31,15 @@ export default function FlagsGame({ auth, db, currentUser }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [gameState, setGameState] = useState("playing"); // "playing", "gameOver", or "winner"
+  const [cheatEnabled, setCheatEnabled] = useState(false);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const cheatCode = queryParams.get("cheat");
+    setCheatEnabled(cheatCode === "motherlode");
+  }, [location]);
 
   useEffect(() => {
     const fetchQuestionsAndBestScore = async () => {
@@ -68,7 +76,7 @@ export default function FlagsGame({ auth, db, currentUser }) {
     setSelectedAnswer(answer);
     const currentQuestion = questions[currentQuestionIndex];
 
-    if (answer === currentQuestion.correctAnswer) {
+    if (cheatEnabled || answer === currentQuestion.correctAnswer) {
       const newScore = score + 1;
       setScore(newScore);
 
@@ -78,7 +86,7 @@ export default function FlagsGame({ auth, db, currentUser }) {
         await updateDoc(userRef, { bestScore: newScore });
       }
     } else {
-      // Game over on first error
+      // Game over on first error (only if cheat is not enabled)
       if (currentUser) {
         const userRef = doc(db, "users", currentUser.uid);
         await updateDoc(userRef, { lastScore: score });
@@ -135,7 +143,7 @@ export default function FlagsGame({ auth, db, currentUser }) {
   return (
     <>
       <Typography variant="h4" component="h1" gutterBottom sx={{ fontSize: "3rem", fontWeight: "bold", color: "#333" }}>
-        Guess the flag
+        Guess the flag {cheatEnabled && "(Cheat Enabled)"}
       </Typography>
       <Box sx={{ width: "100%", textAlign: "center", marginTop: 2 }}>
         <img
@@ -160,7 +168,7 @@ export default function FlagsGame({ auth, db, currentUser }) {
               variant="outlined"
               sx={
                 selectedAnswer === option
-                  ? option === currentQuestion.correctAnswer
+                  ? cheatEnabled || option === currentQuestion.correctAnswer
                     ? correctButtonStyle
                     : { ...buttonStyle, backgroundColor: "red", color: "#fff" }
                   : buttonStyle
