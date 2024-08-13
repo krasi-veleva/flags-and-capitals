@@ -70,9 +70,9 @@ function App() {
 
         <Route path="/flags-and-capitals" element={user ? <FlagsGame /> : <Navigate to="/login" replace />} />
 
-        <Route path="/statistic" element={<Statistic db={db} />} />
+        <Route path="/statistic" element={<Statistic db={db} currentUser={user} />} />
 
-        <Route path="/profile-details/:uid" element={<ProfileDetails db={db} />} />
+        <Route path="/profile-details/:uid" element={<ProfileDetails db={db} auth={auth} currentUser={user} />} />
 
         <Route path="/profile-edit/:uid" element={<ProfileEdit db={db} />} />
 

@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getUserById } from "../../utils/userUtils";
+import { getUserById, deleteProfile } from "../../utils/userUtils";
 
 import LikeButton from "./likeButton/LikeButton";
 
@@ -13,9 +14,10 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 
-export default function ProfileDetails({ db }) {
+export default function ProfileDetails({ auth, db, currentUser }) {
   const { uid } = useParams();
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -28,6 +30,16 @@ export default function ProfileDetails({ db }) {
   if (!user) {
     return <Typography>Loading...</Typography>;
   }
+
+  const handleDelete = async () => {
+    try {
+      console.log(currentUser);
+      await deleteProfile(auth, currentUser.uid, db);
+      navigate("/");
+    } catch (error) {
+      console.error("Error deleting profile: ", error);
+    }
+  };
 
   return (
     <>
@@ -46,14 +58,18 @@ export default function ProfileDetails({ db }) {
               <Typography variant="body1">{user.score}</Typography>
             </Box>
           </Box>
-          <LikeButton />
+          {currentUser && <LikeButton currentUserId={currentUser.uid} profileId={uid} db={db} />}
         </CardContent>
-        <CardActions>
-          <Button size="medium" component={Link} to={`/profile-edit/${uid}`}>
-            Edit
-          </Button>
-          <Button size="medium">Delete</Button>
-        </CardActions>
+        {currentUser?.uid === uid && (
+          <CardActions>
+            <Button size="medium" component={Link} to={`/profile-edit/${uid}`}>
+              Edit
+            </Button>
+            <Button size="small" color="secondary" onClick={handleDelete}>
+              Delete
+            </Button>
+          </CardActions>
+        )}
       </Card>
     </>
   );
