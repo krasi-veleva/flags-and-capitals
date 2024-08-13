@@ -14,8 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 import { getAllUsers } from "../../utils/userUtils";
 
-// .sort((a, b) => b.score - a.score);
-
 export default function Statistic({ db, currentUser }) {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
@@ -24,12 +22,18 @@ export default function Statistic({ db, currentUser }) {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const userList = await getAllUsers(db);
-      setUsers(userList);
+      try {
+        const userList = await getAllUsers(db);
+        // Sort users by bestScore in descending order
+        const sortedUsers = userList.sort((a, b) => (b.bestScore || 0) - (a.bestScore || 0));
+        setUsers(sortedUsers);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
     };
-    fetchUsers();
-  }, []);
 
+    fetchUsers();
+  }, [db]);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
