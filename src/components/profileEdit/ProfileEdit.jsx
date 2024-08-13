@@ -4,8 +4,7 @@ import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import CardMedia from "@mui/material/CardMedia";
-import { Image } from "@mui/icons-material";
+import { useParams, useNavigate } from "react-router-dom";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -19,9 +18,10 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 export default function ProfileEdit() {
+  const { uid } = useParams();
+  const navigate = useNavigate();
   const profileData = {
-    imageUrl:
-      "https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg",
+    imageUrl: "https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg",
   };
   return (
     <>
@@ -47,22 +47,11 @@ export default function ProfileEdit() {
         <Typography p={2} variant="body2" color="text.primary">
           Edit profile image
         </Typography>
-        <Button
-          component="label"
-          role={undefined}
-          variant="contained"
-          tabIndex={-1}
-          startIcon={<CloudUploadIcon />}
-        >
+        <Button component="label" role={undefined} variant="contained" tabIndex={-1} startIcon={<CloudUploadIcon />}>
           Upload file
           <VisuallyHiddenInput type="file" />
         </Button>
-        <TextField
-          id="outlined-multiline-static"
-          label="Description"
-          multiline
-          rows={4}
-        />
+        <TextField id="outlined-multiline-static" label="Description" multiline rows={4} />
       </Box>
       <Button
         type="submit"
@@ -70,14 +59,13 @@ export default function ProfileEdit() {
         variant="contained"
         color="primary"
         sx={{
-          marginTop: 3,
-          marginBottom: 2,
-          padding: "10px 22px",
-          fontSize: "14px",
-          backgroundColor: "#1565c0",
+          marginTop: "30px",
         }}
       >
-        Done
+        Save
+      </Button>
+      <Button variant="contained" sx={{ marginTop: "20px" }} onClick={() => navigate(`/profile-details/${uid}`)}>
+        Back
       </Button>
     </>
   );

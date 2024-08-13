@@ -71,6 +71,9 @@ export default function ProfileDetails({ auth, db, currentUser }) {
           </CardActions>
         )}
       </Card>
+      <Button variant="contained" sx={{ marginTop: "30px" }} onClick={() => navigate("/statistic")}>
+        Back
+      </Button>
     </>
   );
 }

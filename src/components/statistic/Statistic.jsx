@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 import { getAllUsers } from "../../utils/userUtils";
 
@@ -19,6 +20,7 @@ export default function Statistic({ db, currentUser }) {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -88,6 +90,9 @@ export default function Statistic({ db, currentUser }) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      <Button variant="contained" onClick={() => navigate("/")}>
+        Back
+      </Button>
     </>
   );
 }
